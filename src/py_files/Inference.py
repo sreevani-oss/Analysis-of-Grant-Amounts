@@ -187,7 +187,7 @@ class Inference:
         # Extracting year columns
         year_columns = self.data.columns[4:]
 
-        # Plotting year-wise data for these countries
+        # Plotting year-wise data for  countries
         plt.figure(figsize=(15, 6))
         for country in top_countries_list:
             yearly_data = yearly_grants_top_countries[yearly_grants_top_countries['Country Name'] == country]
