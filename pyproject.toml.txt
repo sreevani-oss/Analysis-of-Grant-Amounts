@@ -1,0 +1,25 @@
+# project.toml
+
+[build-system]
+requires = ["setuptools>=40.6.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "Grant Analysis"
+version = "1.0.0"
+description = "A project to analyze grant allocations over time and by region."
+authors = [{name = "Sreevani Siddareddigari", email = "sreevanireddy545@gmail.com"}]
+license = {file = "LICENSE"}
+readme = "README.md"
+requires-python = ">=3.6"
+
+
+[dependencies]
+python = "^3.8"
+pandas = "^1.2.0"
+matplotlib = "^3.3.0"
+numpy = "^1.19.0"
+statsmodels = "^0.12.0"
+
+
