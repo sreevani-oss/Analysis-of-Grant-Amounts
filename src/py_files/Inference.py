@@ -17,10 +17,28 @@ class Inference:
     def __init__(self, data: pd.DataFrame):
         self.data = data
 
+    """
+    Identifies top N countries/entities based on grant amounts for a given year.
+
+    Parameters:
+    - year (str): The year for which the top countries/entities are determined.
+    - n (int): The number of top countries/entities to return.
+
+    Returns:
+    - pd.DataFrame: A DataFrame containing the top N countries/entities and their grant amounts for the specified year.
+    """
     def top_n_countries(self, year: str, n: int) -> pd.DataFrame:
         """Identifies top N countries/entities based on grant amounts for a given year."""
         return self.data[['Country Name', year]].nlargest(n, year)
 
+    """
+    Plots grant trends for given countries/entities over the years.
+
+    Parameters:
+    - countries (list): A list of countries/entities whose grant trends are to be plotted.
+
+    This method generates a line plot showing the trend of grant amounts for each specified country/entity over the years.
+    """
     def plot_grant_trends(self, countries: list):
         """Plots grant trends for given countries/entities over the years."""
         trend_data = self.data[self.data['Country Name'].isin(countries)].set_index('Country Name').iloc[:, 3:-1].transpose()
@@ -36,6 +54,11 @@ class Inference:
         plt.tight_layout()
         plt.show()
 
+    """
+    Analyzes and plots the global trend of grant allocations over the years.
+
+    This method sums the grant amounts for each year across all countries/entities and plots a line graph to show the overall trend of global grant allocations.
+    """
     def global_grant_trend(self):
         """Analyzes and plots the global trend of grant allocations over the years."""
         # Summing grant amounts for each year
@@ -57,7 +80,17 @@ class Inference:
         plt.show()
 
 
+    """
+    Forecasts grant amounts for future years using an ARIMA model.
 
+    Parameters:
+    - forecast_years (int, optional): The number of years ahead to forecast. Defaults to 5.
+
+    Returns:
+    - Series: A pandas Series containing the forecasted grant amounts for the specified number of years ahead.
+
+    This method first checks for stationarity in the time series data, makes the series stationary if necessary, fits an ARIMA model, and then forecasts grant amounts.
+    """
     def forecast_grants(self, forecast_years=5):
         # Load and process the dataset
         #print(self.data)
@@ -94,14 +127,13 @@ class Inference:
         # Return the forecasted values
         return forecast_original_scale
 
+    """
+    Plots the total grant allocations over time using the provided DataFrame.
 
+    This method creates a line plot showing how the total grant allocations have changed over the years across all countries/entities.
+    """
     def plot_grant_allocations_over_time(self):
-        """
-        Plots the total grant allocations over time.
-
-        Parameters:
-        - df (DataFrame): The DataFrame containing grant data with years as columns.
-        """
+        
         # Extracting year columns (all columns after the first four are years)
         year_columns = self.data.columns[4:]
 
@@ -118,15 +150,16 @@ class Inference:
         plt.tight_layout()
         plt.show()
 
+    """
+    Analyzes and plots grant allocations by country and year-wise data for top countries.
 
+    Parameters:
+    - top_n (int, optional): The number of top countries or regions to analyze. Defaults to 10.
+
+    This method visualizes the total grants received by the top countries or regions and also plots a year-wise breakdown of grant allocations for these top entities.
+    """
     def analyze_grant_allocations(self, top_n=10):
-        """
-        Analyzes and plots grant allocations by country and year-wise data for top countries.
 
-        Parameters:
-        - df (DataFrame): The DataFrame containing grant data.
-        - top_n (int): The number of top countries or regions to analyze.
-        """
         # Summing up the grant values for each country over all years
         total_grants_by_country = self.data.set_index(['Country Name']).iloc[:, 3:].sum(axis=1)
 
@@ -172,7 +205,11 @@ class Inference:
     # Example usage:
     # analyze_grant_allocations(your_dataframe, top_n=10)
 
+    """
+    Plots the total grant allocations by region using the provided DataFrame.
 
+    This method groups the data by region, calculates the total grants received by each region over all years, and plots a horizontal bar chart showing these totals.
+    """
     def plot_grants_by_region(self):
         """
         Plots the total grant allocations by region using the provided DataFrame.
